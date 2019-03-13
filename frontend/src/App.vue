@@ -1,29 +1,55 @@
 <template>
-  <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
-    <router-view/>
-  </div>
+  <v-app dark>
+    <v-toolbar>
+      <v-toolbar-title>FAW Turing Store</v-toolbar-title>
+      <v-spacer></v-spacer>
+      <v-toolbar-items class="hidden-sm-and-down">
+         <v-btn
+          v-for="item in menu"
+          :key="item.icon"
+          :to="item.link"
+          flat
+          @click="route(item.route)"
+        >{{ item.title }}</v-btn>
+      </v-toolbar-items>
+      <v-menu class="hidden-md-and-up">
+        <v-toolbar-side-icon slot="activator"></v-toolbar-side-icon>
+        <v-list>
+          <v-list-tile v-for="item in menu" :key="item.icon">
+            <v-list-tile-content>
+              <v-list-tile-title>{{ item.title }}</v-list-tile-title>
+             </v-list-tile-content>
+          </v-list-tile>   
+        </v-list>
+      </v-menu>
+    </v-toolbar>
+    <v-content>
+      <v-container fluid fill-height>
+        <v-layout justify-center align-center>
+          <router-view></router-view>
+        </v-layout>
+      </v-container>
+    </v-content>
+  </v-app>
 </template>
 
-<style lang="scss">
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
-#nav {
-  padding: 30px;
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-    &.router-link-exact-active {
-      color: #42b983;
+<script>
+export default {
+  name: 'App',
+  components: {
+  },
+  data () {
+    return {
+      menu: [
+        { icon: '', title: 'Signup', route: '/signup' },
+        { icon: 'fa-sign-in-alt', title: 'Login', route: '/login' }
+      ]
+    }
+  },
+  methods: {
+    route(route) {
+      this.$router.push(route);
     }
   }
 }
-</style>
+</script>
